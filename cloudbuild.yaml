@@ -1,0 +1,51 @@
+steps:
+  - name: 'python:3.10'
+    id: Install dependencies
+    entrypoint: pip
+    args: ['install', '-r', 'app/requirements.txt']
+
+  - name: 'python:3.10'
+    id: Run tests
+    entrypoint: pytest
+    args: ['app/']
+
+  - name: 'python:3.10'
+    id: Run linter
+    entrypoint: sh
+    args: ['-c', 'pip install flake8 && flake8 app/']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Build Docker image
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA', './app']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Push Docker image
+    args: ['push', 'us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA']
+
+  - name: 'hashicorp/terraform:1.6.0'
+    id: Terraform Apply
+    entrypoint: /bin/sh
+    args:
+      - '-c'
+      - |
+        cd terraform
+        terraform init
+        terraform apply -auto-approve \
+          -var="project_id=project-bct-463501" \
+          -var="region=us-central1" \
+          -var="image_url=us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA"
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: Cloud Run Deploy
+    entrypoint: gcloud
+    args:
+      [
+        'run', 'deploy', 'flask-app',
+        '--image', 'us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA',
+        '--region', 'us-central1',
+        '--platform', 'managed',
+        '--allow-unauthenticated'
+      ]
+
+images:
+  - 'us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA'
