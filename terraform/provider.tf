@@ -21,8 +21,10 @@ resource "google_cloud_run_service" "flask_app" {
   }
 }
 
-resource "google_project_iam_member" "public_invoker" {
-  project = var.project_id
-  role    = "roles/run.invoker"
-  member  = "allUsers"
+resource "google_cloud_run_service_iam_member" "public_invoker" {
+  project  = var.project_id
+  location = var.region
+  service  = google_cloud_run_service.flask_app.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
 }
