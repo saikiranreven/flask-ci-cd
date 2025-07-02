@@ -49,3 +49,6 @@ steps:
 
 images:
   - 'us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
