@@ -1,13 +1,12 @@
 steps:
   - name: 'python:3.10'
-    id: Install dependencies
-    entrypoint: pip
-    args: ['install', '-r', 'app/requirements.txt']
-
-  - name: 'python:3.10'
-    id: Run tests
-    entrypoint: pytest
-    args: ['app/']
+    id: Install dependencies & Test
+    entrypoint: /bin/sh
+    args:
+      - '-c'
+      - |
+        pip install -r app/requirements.txt
+        pytest app/
 
   - name: 'python:3.10'
     id: Run linter
