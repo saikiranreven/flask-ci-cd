@@ -11,13 +11,12 @@ build:
   local:
     push: true
 deploy:
-  cloudrun:
-    region: us-central1
-    serviceName: flask-app
+  kubectl:
+    manifests:
+      paths:
+        - "*.yaml"
 
 profiles:
   - name: clouddeploy
     deploy:
-      cloudrun:
-        region: us-central1
-        serviceName: flask-app
+      cloudrun: {}
