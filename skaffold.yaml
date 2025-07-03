@@ -4,19 +4,14 @@ metadata:
   name: flask-app
 build:
   artifacts:
-  - image: us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app
-    context: app
-    docker:
-      dockerfile: Dockerfile
+    - image: us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app
+      context: .
+      docker:
+        dockerfile: Dockerfile
   local:
     push: true
+manifests:
+  rawYaml:
+    - service.yaml
 deploy:
-  kubectl:
-    manifests:
-      paths:
-        - "*.yaml"
-
-profiles:
-  - name: clouddeploy
-    deploy:
-      cloudrun: {}
+  cloudrun: {}
