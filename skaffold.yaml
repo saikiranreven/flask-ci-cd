@@ -1,4 +1,3 @@
-# skaffold.yaml
 apiVersion: skaffold/v4beta3
 kind: Config
 metadata:
@@ -12,8 +11,4 @@ build:
   local:
     push: true
 deploy:
-  cloudrun:
-    projectId: project-bct-463501
-    region: us-central1
-    services:
-      flask-app-service: {}
+  cloudrun: {}
