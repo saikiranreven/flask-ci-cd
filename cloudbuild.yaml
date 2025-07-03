@@ -46,7 +46,7 @@ steps:
         '--allow-unauthenticated'
       ]
 
-    - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: Trigger Cloud Deploy
     entrypoint: gcloud
     args:
