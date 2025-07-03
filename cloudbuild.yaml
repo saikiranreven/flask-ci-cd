@@ -45,6 +45,19 @@ steps:
         '--platform', 'managed',
         '--allow-unauthenticated'
       ]
+      
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: Trigger Cloud Deploy
+  entrypoint: gcloud
+  args:
+    [
+      'deploy', 'releases', 'create', 'release-$SHORT_SHA',
+      '--project=project-bct-463501',
+      '--region=us-central1',
+      '--delivery-pipeline=flask-app-pipeline',
+      '--image=us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA',
+      '--annotations=commitId=$COMMIT_SHA'
+    ]
 
 images:
   - 'us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA'
