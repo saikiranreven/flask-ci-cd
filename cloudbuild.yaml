@@ -50,16 +50,14 @@ steps:
     id: Trigger Cloud Deploy Release
     entrypoint: gcloud
     args:
-    [
-      'deploy', 'releases', 'create', 'release-$SHORT_SHA',
-      '--project=project-bct-463501',
-      '--region=us-central1',
-      '--delivery-pipeline=flask-app-pipeline',
-      '--images=flask-app=us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA',
-      '--description=Automated release from Cloud Build'
-    ]
-
-
+      [
+        'deploy', 'releases', 'create', 'release-$SHORT_SHA',
+        '--project=project-bct-463501',
+        '--region=us-central1',
+        '--delivery-pipeline=flask-app-pipeline',
+        '--images=flask-app=us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA',
+        '--description=Automated release from Cloud Build'
+      ]
 
 images:
   - 'us-central1-docker.pkg.dev/project-bct-463501/flask-repo/flask-app:$SHORT_SHA'
