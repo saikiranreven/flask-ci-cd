@@ -1,3 +1,4 @@
+# skaffold.yaml
 apiVersion: skaffold/v4beta3
 kind: Config
 metadata:
@@ -10,8 +11,9 @@ build:
         dockerfile: Dockerfile
   local:
     push: true
-manifests:
-  rawYaml:
-    - service.yaml
 deploy:
-  cloudrun: {}
+  cloudrun:
+    projectId: project-bct-463501
+    region: us-central1
+    services:
+      flask-app-service: {}
