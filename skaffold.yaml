@@ -13,12 +13,11 @@ build:
 deploy:
   cloudrun:
     region: us-central1
-    platform: managed
-    project_id: project-bct-463501
+    serviceName: flask-app
+
 profiles:
   - name: clouddeploy
     deploy:
       cloudrun:
         region: us-central1
-        platform: managed
-        project_id: project-bct-463501
+        serviceName: flask-app

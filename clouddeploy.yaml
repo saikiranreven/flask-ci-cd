@@ -1,37 +1,57 @@
-apiVersion: deploy.cloud.google.com/v1
-kind: Target
-metadata:
-  name: dev
-  annotations:
-    clouddeploy.googleapis.com/location: us-central1
-description: Dev target for Cloud Run
-# no 'run' block here
----
-apiVersion: deploy.cloud.google.com/v1
-kind: Target
-metadata:
-  name: staging
-  annotations:
-    clouddeploy.googleapis.com/location: us-central1
-description: Staging target for Cloud Run
----
-apiVersion: deploy.cloud.google.com/v1
-kind: Target
-metadata:
-  name: production
-  annotations:
-    clouddeploy.googleapis.com/location: us-central1
-description: Production target for Cloud Run
----
+# Delivery Pipeline
 apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
   name: flask-app-pipeline
   annotations:
     clouddeploy.googleapis.com/location: us-central1
-description: Multi-stage delivery pipeline for Flask app
 serialPipeline:
   stages:
     - targetId: dev
     - targetId: staging
     - targetId: production
+
+---
+# Dev Target (Cloud Run)
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: dev
+  annotations:
+    clouddeploy.googleapis.com/location: us-central1
+description: "Development environment"
+run:
+  location: projects/project-bct-463501/locations/us-central1
+executionConfigs:
+- usages: [RENDER, DEPLOY]
+  defaultPool: {}
+
+---
+# Staging Target (Cloud Run)
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: staging
+  annotations:
+    clouddeploy.googleapis.com/location: us-central1
+description: "Staging environment"
+run:
+  location: projects/project-bct-463501/locations/us-central1
+executionConfigs:
+- usages: [RENDER, DEPLOY]
+  defaultPool: {}
+
+---
+# Production Target (Cloud Run)
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: production
+  annotations:
+    clouddeploy.googleapis.com/location: us-central1
+description: "Production environment"
+run:
+  location: projects/project-bct-463501/locations/us-central1
+executionConfigs:
+- usages: [RENDER, DEPLOY]
+  defaultPool: {}
