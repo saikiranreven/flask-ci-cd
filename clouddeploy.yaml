@@ -1,8 +1,35 @@
 apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: dev
+  annotations:
+    clouddeploy.googleapis.com/location: us-central1
+description: Dev target for Cloud Run
+# no 'run' block here
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: staging
+  annotations:
+    clouddeploy.googleapis.com/location: us-central1
+description: Staging target for Cloud Run
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: production
+  annotations:
+    clouddeploy.googleapis.com/location: us-central1
+description: Production target for Cloud Run
+---
+apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
   name: flask-app-pipeline
-description: "Delivery pipeline for Flask app"
+  annotations:
+    clouddeploy.googleapis.com/location: us-central1
+description: Multi-stage delivery pipeline for Flask app
 serialPipeline:
   stages:
     - targetId: dev
